@@ -1,7 +1,7 @@
 #! /usr/bin/env node
 'use strict';
 const { writeFile, mkdir } = require('fs');
-const path = require('path');
+const { join } = require('path');
 const faker = require('faker');
 const yargs = require('yargs');
 
@@ -14,10 +14,10 @@ const argv = yargs.argv;
 const count = isNaN(argv.count) ? 1 : argv.count;
 const useData = argv.data === 'false' ? false : true;
 let data = count > 1 ? [] : undefined;
-const fileName = argv.location ? `${argv.location.pop()}.json` : 'testData.json';
-const filePath = argv.location ? path.join(...argv.location) : '.';
-
-console.log('TCL: filePath', filePath);
+const fileName = argv.location.length
+  ? `${argv.location.pop()}.json`
+  : 'testData.json';
+const filePath = argv.location ? join(...argv.location) : '.';
 
 mkdir(filePath, { recursive: true }, err => {
   if (err) {
@@ -44,8 +44,8 @@ mkdir(filePath, { recursive: true }, err => {
       }
     });
   }
-  
-  const jsonData = !useData ? JSON.stringify(data) : JSON.stringify({data});
+
+  const jsonData = !useData ? JSON.stringify(data) : JSON.stringify({ data });
 
   writeFile(`${filePath}/${fileName}`, jsonData, err => {
     if (err) {
