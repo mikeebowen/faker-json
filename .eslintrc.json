@@ -16,7 +16,7 @@
     "newline-per-chained-call": ["error", { "ignoreChainWithDepth": 2 }],
     "no-console": ["warn", { "allow": ["warn", "error"] }],
     "no-multiple-empty-lines": [2, { "max": 2, "maxEOF": 1 }],
-    "no-unused-vars": ["error", { "vars": "all", "args": "after-used", "ignoreRestSiblings": false }],
+    "no-unused-vars": ["error", { "vars": "all", "args": "none", "ignoreRestSiblings": false }],
     "prefer-const": ["error", { "destructuring": "any", "ignoreReadBeforeAssign": false }],
     "quotes": ["error", "single"],
     "semi": ["error", "always"], "strict": 2
