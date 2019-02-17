@@ -1,9 +1,8 @@
 #! /usr/bin/env node
 'use strict';
 const { writeFile, mkdir, readFile } = require('fs');
-const { join } = require('path');
-const faker = require('faker');
 const yargs = require('yargs');
+const createFromFile = require('./lib/createFromFile');
 
 // yargs.array('location');
 // Object.keys(faker).forEach(key => {
@@ -11,6 +10,7 @@ const yargs = require('yargs');
 // });
 
 const argv = yargs.argv;
+createFromFile(argv);
 // const count = isNaN(argv.count) ? 1 : argv.count;
 // const useData = argv.data === 'false' ? false : true;
 // let data = count > 1 ? [] : undefined;
@@ -53,59 +53,3 @@ const argv = yargs.argv;
 //     }
 //   });
 // });
-
-function createItems(val) {
-  if (typeof val === 'string' && val.startsWith('{{') && val.endsWith('}}')) {
-    return faker.fake(val);
-  } else if (typeof val === 'string' || typeof val === 'number') {
-    return val;
-  } else if (typeof val == 'object') {
-    const parsedNum = parseInt(val.__count, 10);
-    const isNanStatus = isNaN(parsedNum);
-    const count = !isNanStatus ? parsedNum : 1;
-    const ret = isNanStatus ? {} : [];
-
-    if (!isNanStatus) {
-      for (let i = 0; i < count; i++) {
-        const newObj = {};
-  
-        Object.keys(val).forEach(k => {
-          if (k !== '__count') {
-            newObj[k] = createItems(val[k]);
-            ret.push(newObj);
-          }
-        });
-      }
-    } else {
-      Object.keys(val).forEach(k => {
-        ret[k] = createItems(val[k]);
-      });
-    }
-
-    return ret;
-  }
-
-
-}
-
-const configPath = argv.data;
-const filePath = configPath.split('/');
-const fileName = filePath.pop();
-
-readFile(`${join(...filePath)}/${fileName}`, 'utf8', (err, data) => {
-  const parsedData = JSON.parse(data);
-  if (err) {
-    throw err;
-  }
-  
-  parsedData.data.forEach((datum, i) => {
-    let saveFileName = datum.fileName.endsWith('.json') ? datum.fileName : `testData-${i}.json`;
-    const count = datum.count || 1;
-    let ret = count > 1 ? [] : undefined;
-    
-    for (let i = 0; i < count; i++) {
-      ret.push(createItems(datum.item));
-    }
-    console.log(JSON.stringify(ret[0]));
-  });
-});
