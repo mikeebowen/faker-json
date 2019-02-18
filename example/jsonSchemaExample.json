@@ -1,0 +1,41 @@
+{
+  "__out": "results/data/user.json",
+  "type": "user",
+  "data": {
+    "__count": 10,
+    "id": "{{random.uuid}}",
+    "name": {
+      "constatns": {
+        "taco": "cat",
+        "numCats": 13,
+        "boolCat": true,
+        "nullCat": null
+      },
+      "lastName": "{{name.lastName}}",
+      "firstName": "{{name.firstName}}",
+      "money": {
+        "__count": "5",
+        "account": "{{finance.account}}",
+        "acctName": "{{finance.accountName}}"
+      },
+      "phrases": [
+        "{{hacker.phrase}}",
+        "{{hacker.phrase}}",
+        "{{hacker.phrase}}",
+        "{{hacker.phrase}}",
+        {
+          "__count": 3,
+          "gerund": "{{hacker.ingverb}}",
+          "noun": "{{hacker.noun}}"
+        }
+      ]
+    },
+    "address": {
+      "street": "{{address.streetAddress}}",
+      "city": "{{address.city}}",
+      "state": "{{address.state}}",
+      "zip": "{{address.zipCode}}"
+    },
+    "company": "{{company.companyName}}"
+  }
+}
