@@ -2,7 +2,8 @@
   "__out": "results/data/user.json",
   "type": "user",
   "data": {
-    "__count": 10,
+    "__min": 10,
+    "__max": 30,
     "id": "{{random.uuid}}",
     "name": {
       "constatns": {
@@ -14,7 +15,8 @@
       "lastName": "{{name.lastName}}",
       "firstName": "{{name.firstName}}",
       "money": {
-        "__count": "5",
+        "__min": "-30",
+        "__max": 10,
         "account": "{{finance.account}}",
         "acctName": "{{finance.accountName}}"
       },
