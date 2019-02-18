@@ -1,6 +1,6 @@
 #! /usr/bin/env node
 'use strict';
-const { writeFile, mkdir, readFile } = require('fs');
+const { join } = require('path');
 const yargs = require('yargs');
 const createFromFile = require('./lib/createFromFile');
 
@@ -10,7 +10,13 @@ const createFromFile = require('./lib/createFromFile');
 // });
 
 const argv = yargs.argv;
-createFromFile(argv);
+
+if (typeof argv.file === 'string' && argv.file != undefined) {
+  const readPathArr = argv.file ? argv.file.split('/') : ['testData'];
+  const readFileName = readPathArr[readPathArr.length - 1].endsWith('.json') ? readPathArr.pop() : `${readPathArr.pop()}.json`;
+  const readPath = `${join(...[...readPathArr, readFileName])}`;
+  createFromFile(readPath);
+}
 // const count = isNaN(argv.count) ? 1 : argv.count;
 // const useData = argv.data === 'false' ? false : true;
 // let data = count > 1 ? [] : undefined;
