@@ -3,7 +3,7 @@
   "type": "user",
   "data": {
     "__min": 10,
-    "__max": 30,
+    "__max": 15,
     "id": "{{random.uuid}}",
     "name": {
       "constatns": {
@@ -15,8 +15,7 @@
       "lastName": "{{name.lastName}}",
       "firstName": "{{name.firstName}}",
       "money": {
-        "__min": "-30",
-        "__max": 10,
+        "__min": "1",
         "account": "{{finance.account}}",
         "acctName": "{{finance.accountName}}"
       },
@@ -26,7 +25,8 @@
         "{{hacker.phrase}}",
         "{{hacker.phrase}}",
         {
-          "__count": 3,
+          "__min": 2,
+          "__max": 7,
           "gerund": "{{hacker.ingverb}}",
           "noun": "{{hacker.noun}}"
         }
