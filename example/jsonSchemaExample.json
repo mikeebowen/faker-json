@@ -6,7 +6,7 @@
     "__max": 15,
     "id": "{{random.uuid}}",
     "name": {
-      "constatns": {
+      "constants": {
         "taco": "cat",
         "numCats": 13,
         "boolCat": true,
