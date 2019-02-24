@@ -61,7 +61,7 @@ describe('createData', function() {
     done();
   });
 
-  it('should return an array of the length of __max value if __max is not included', function(done) {
+  it('should return an array of the length of __max value if __min is not included', function(done) {
     const testConfig = {
       __max: 5,
       name: '{{name.firstName}}',
@@ -112,6 +112,117 @@ describe('createData', function() {
       expect(r.verb).to.eql('hacking');
     });
 
+    done();
+  });
+
+  it('should return an object if __min and __max are not included', function(done) {
+    const testConfig = {
+      name: '{{name.firstName}}',
+      noun: '{{hacker.noun}}',
+      verb: '{{hacker.verb}}',
+      lorem: {
+        word: '{{lorem.word}}'
+      }
+    };
+
+    const res = createData(testConfig);
+
+    expect(res).to.be.a('object');
+    expect(Array.isArray(res)).to.eql(false);
+    expect(res.name).to.eql('Jorge');
+    expect(res.name).to.eql('Jorge');
+    expect(res.noun).to.eql('Database');
+    expect(res.verb).to.eql('hacking');
+
+    done();
+  });
+
+  it('should return an array of items from faker.js if an array of items is passed', function(done) {
+    const testConfig = {
+      name: '{{name.firstName}}',
+      noun: '{{hacker.noun}}',
+      verb: '{{hacker.verb}}',
+      list: [
+        '{{name.firstName}}',
+        'tacocat',
+        45,
+        true,
+        null
+      ]
+    };
+
+    const res = createData(testConfig);
+
+    expect(res.list.length).to.eql(5);
+    expect(res.list[0]).to.eql('Jorge');
+    expect(res.list[1]).to.eql('tacocat');
+    expect(res.list[2]).to.eql(45);
+    expect(res.list[3]).to.eql(true);
+    expect(res.list[4]).to.eql(null);
+    done();
+  });
+
+  it('should throw an error if __min is less than 0', function(done) {
+    const testConfig = {
+      __min: -4,
+      name: '{{name.firstName}}',
+      noun: '{{hacker.noun}}',
+      verb: '{{hacker.verb}}',
+      lorem: {
+        word: '{{lorem.word}}'
+      }
+    };
+
+    const spy = sinon.spy(createData);
+    try {
+      spy(testConfig, 'this');
+    } catch(err) {
+      expect(err.message).to.eql('Aborted: \n__min must be a an integer greater than 0 or a string parsable as a number: this.__min === -4');
+    }
+    expect(spy.threw()).to.eql(true);
+    done();
+  });
+
+  it('should throw an error if __max is less than 0', function(done) {
+    const testConfig = {
+      __max: -4,
+      name: '{{name.firstName}}',
+      noun: '{{hacker.noun}}',
+      verb: '{{hacker.verb}}',
+      lorem: {
+        word: '{{lorem.word}}'
+      }
+    };
+
+    const spy = sinon.spy(createData);
+    try {
+      spy(testConfig, 'this');
+    } catch(err) {
+      expect(err.message).to.eql('Aborted: \n__max must be a an integer greater than 0 or a string parsable as a number: this.__max === -4');
+    }
+    expect(spy.threw()).to.eql(true);
+    done();
+  });
+
+  it('should throw an error if __max is less __min', function(done) {
+    const testConfig = {
+      name: '{{name.firstName}}',
+      noun: '{{hacker.noun}}',
+      verb: '{{hacker.verb}}',
+      lorem: {
+        __max: 1,
+        __min: 6,
+        word: '{{lorem.word}}'
+      }
+    };
+
+    const spy = sinon.spy(createData);
+    try {
+      spy(testConfig, 'this');
+    } catch(err) {
+      expect(err.message).to.eql('Aborted: \n__min cannot be greater than __max: this.lorem.__min > this.lorem.__max');
+    }
+    expect(spy.threw()).to.eql(true);
     done();
   });
 });
