@@ -20,7 +20,7 @@
         "acctName": "{{finance.accountName}}"
       },
       "phrases": [
-        "{{hacker.phrase}}",
+        "I'm going to {{hacker.phrase}} {{hacker.noun}}",
         "{{hacker.phrase}}",
         "{{hacker.phrase}}",
         "{{hacker.phrase}}",
