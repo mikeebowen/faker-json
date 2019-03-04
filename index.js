@@ -13,6 +13,7 @@ const argv = yargs.argv;
 
 if (typeof argv.file === 'string' && argv.file != undefined) {
   const readPathArr = argv.file ? argv.file.split('/') : ['testData'];
+  readPathArr.unshift(process.cwd());
   const readFileName = readPathArr[readPathArr.length - 1].endsWith('.json') ? readPathArr.pop() : `${readPathArr.pop()}.json`;
   const readPath = `${join(...[...readPathArr, readFileName])}`;
   createFromFile(readPath);
