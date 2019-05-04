@@ -39,7 +39,7 @@ describe('createFromFile', function() {
       createFile(savePath, savePathArr, parsedData) {
         expect(parsedData).to.deep.eq(parsedDataClone);
         expect(savePathArr).to.deep.eq(['results', 'data']);
-        expect(savePath).to.eq('/home/michael/Repositories/json-faker/results/data/user.json');
+        expect(savincludeat/json-faker/results/data/user.json');
         done();
       },
       existsSync() {
@@ -101,7 +101,7 @@ describe('createFromFile', function() {
       createFile(savePath, savePathArr, parsedData) {
         expect(parsedData).to.deep.eq(parsedDataClone);
         expect(savePathArr).to.deep.eq(['results', 'data']);
-        expect(savePath).to.eq('/home/michael/Repositories/json-faker/results/data/user.json');
+        expect(savePath).to.include('/json-faker/results/data/user.json');
         done();
       },
       existsSync() {
