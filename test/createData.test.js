@@ -1,8 +1,8 @@
 'use strict';
 
 const expect = require('chai').expect;
-const proxyquire = require('proxyquire');
 const sinon = require('sinon');
+const rewire = require('rewire');
 
 describe('createData', function() {
   const fakerStub = {
@@ -21,8 +21,24 @@ describe('createData', function() {
       }
     }
   };
-  const createData = proxyquire('../lib/createData', {
-    faker: fakerStub
+  const createData = rewire('../lib/createData');
+  createData.__set__({
+    faker: {
+      fake(str) {
+        switch (str) {
+          case '{{name.firstName}}':
+            return 'Jorge';
+          case '{{hacker.noun}}':
+            return 'Database';
+          case '{{hacker.verb}}':
+            return 'hacking';
+          case '{{lorem.word}}':
+            return 'aqua';
+          default:
+            return str;
+        }
+      }
+    }
   });
 
   it('should return the faker.js string if it is passed a string as the first argument', function(done) {
@@ -110,6 +126,24 @@ describe('createData', function() {
       expect(r.name).to.eql('Jorge');
       expect(r.noun).to.eql('Database');
       expect(r.verb).to.eql('hacking');
+    });
+
+    done();
+  });
+
+  it('should return an array of items matching __useVal', function(done) {
+    const testConfig = {
+      __max: 5,
+      __min: 1,
+      __useVal: '{{name.firstName}}',
+    };
+
+    const res = createData(testConfig);
+
+    expect(res.length).to.be.greaterThan(1);
+    expect(res.length).to.be.lessThan(6);
+    res.forEach(r => {
+      expect(r).to.eq('Jorge');
     });
 
     done();

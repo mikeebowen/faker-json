@@ -5,3 +5,4 @@ node_modules/
 jfTestData*
 results/*
 testData/*
+.nyc_output
