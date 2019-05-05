@@ -6,3 +6,4 @@ jfTestData*
 results/*
 testData/*
 .nyc_output
+coverage

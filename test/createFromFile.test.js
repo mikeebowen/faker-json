@@ -54,7 +54,7 @@ describe('createFromFile', function() {
       }
     });
 
-    createFromFile(`${__dirname}/testData/configTestExample.json`);
+    createFromFile(`${__dirname}/configTestExample.json`);
   });
 
   it('should call process.exit if existsSync returns false', function(done) {
@@ -92,7 +92,7 @@ describe('createFromFile', function() {
       }
     });
 
-    createFromFile(`${__dirname}/testData/configTestExample.json`);
+    createFromFile(`${__dirname}/configTestExample.json`);
   });
 
   it('should call createFile without checking with the user if existsSync returns false', function(done) {
@@ -116,6 +116,6 @@ describe('createFromFile', function() {
       }
     });
 
-    createFromFile(`${__dirname}/testData/configTestExample.json`);
+    createFromFile(`${__dirname}/configTestExample.json`);
   })
 });
