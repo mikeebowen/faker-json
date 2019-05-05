@@ -51,6 +51,9 @@ describe('createFromFile', function() {
             cb('y');
           }
         };
+      },
+      process: {
+        cwd: process.cwd
       }
     });
 

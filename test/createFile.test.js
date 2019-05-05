@@ -41,6 +41,7 @@ describe('createFile', function() {
         return;
       },
       process: {
+        unmask: process.unmask,
         exit() {
           expect(chalkSpy.calledWithExactly('out of beer')).to.be.true;
           done();
@@ -125,6 +126,7 @@ describe('createFile', function() {
         return;
       },
       process: {
+        unmask: process.unmask,
         exit() {
           done();
         }
@@ -154,6 +156,7 @@ describe('createFile', function() {
         }
       },
       process: {
+        unmask: process.unmask,
         exit() {
           return;
         }
@@ -197,6 +200,7 @@ describe('createFile', function() {
         green: greenChalkStub
       },
       process: {
+        unmask: process.unmask,
         exit() {
           expect(greenChalkStub.calledWithExactly('/file/location/test.json created.')).to.be.true;
           done();

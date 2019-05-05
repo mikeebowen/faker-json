@@ -5,19 +5,12 @@ const parseSaveFilePath = require('../lib/parseSaveFilePath');
 describe('parseSaveFilePath', function() {
   it('should return the save path, save path as an array , and the file name', function(done) {
     const retVal = parseSaveFilePath(`${__dirname}/configTestExample.json`);
-    const compareObj = {
-      saveFileName: 'configTestExample.json',
-      savePath: '/home/michael/Repositories/json-faker/home/michael/Repositories/json-faker/test/configTestExample.json',
-      savePathArr: [
-        '',
-        'home',
-        'michael',
-        'Repositories',
-        'json-faker',
-        'test'
-      ]
-    };
-    expect(retVal).to.deep.eq(compareObj);
+    expect(retVal.saveFileName).to.eq('configTestExample.json');
+    expect(retVal.savePath.endsWith('/json-faker/test/configTestExample.json')).to.be.true;
+    expect(retVal.savePathArr.includes('')).to.eq(true);
+    expect(retVal.savePathArr.includes('home')).to.eq(true);
+    expect(retVal.savePathArr.includes('json-faker')).to.eq(true);
+    expect(retVal.savePathArr.includes('test')).to.eq(true);
     done();
   });
 
