@@ -3,7 +3,7 @@
 const { join } = require('path');
 const yargs = require('yargs');
 const createFromFile = require('./lib/createFromFile');
-const createFromCode = require('./lib/createFromCode');
+const createData = require('./lib/createData');
 
 // yargs.array('location');
 // Object.keys(faker).forEach(key => {
@@ -23,5 +23,5 @@ if (require.main === module) {
     createFromFile(readPath);
   }
 } else {
-  module.exports = createFromCode;
+  module.exports = createData;
 }
