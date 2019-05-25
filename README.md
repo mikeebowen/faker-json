@@ -5,7 +5,7 @@
 [![Known Vulnerabilities](https://snyk.io/test/github/mikeebowen/json-faker/badge.svg?targetFile=package.json)](https://snyk.io/test/github/mikeebowen/json-faker?targetFile=package.json)
 
 ----------
-A wrapper around [faker.js](https://www.npmjs.com/package/faker) that can be used as a CLI or programmatically to create large amounts of test data.
+A wrapper around [faker.js](https://www.npmjs.com/package/faker) that can be used as a CLI or programmatically to create large amounts of test data. You create an object with the structure you want you data to take and then add meta data to determine how many you want created.
 
 ## Getting Started
 
