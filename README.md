@@ -1,8 +1,8 @@
-# json-faker
+# faker-json
 
-[![Build Status](https://travis-ci.org/mikeebowen/json-faker.svg?branch=master)](https://travis-ci.org/mikeebowen/json-faker)
-[![Coverage Status](https://coveralls.io/repos/github/mikeebowen/json-faker/badge.svg)](https://coveralls.io/github/mikeebowen/json-faker)
-[![Known Vulnerabilities](https://snyk.io/test/github/mikeebowen/json-faker/badge.svg?targetFile=package.json)](https://snyk.io/test/github/mikeebowen/json-faker?targetFile=package.json)
+[![Build Status](https://travis-ci.org/mikeebowen/faker-json.svg?branch=master)](https://travis-ci.org/mikeebowen/faker-json)
+[![Coverage Status](https://coveralls.io/repos/github/mikeebowen/faker-json/badge.svg?branch=master)](https://coveralls.io/github/mikeebowen/faker-json?branch=master)
+[![Known Vulnerabilities](https://snyk.io//test/github/mikeebowen/faker-json/badge.svg?targetFile=package.json)](https://snyk.io//test/github/mikeebowen/faker-json?targetFile=package.json)
 
 ----------
 A wrapper around [faker.js](https://www.npmjs.com/package/faker) that can be used as a CLI or programmatically to create large amounts of test data. You create an object with the structure you want you data to take and then add meta data to determine how many you want created.
@@ -10,9 +10,9 @@ A wrapper around [faker.js](https://www.npmjs.com/package/faker) that can be use
 ## Getting Started
 
 ##### For CLI 
-`npm i -g json-faker`
+`npm i -g faker-json`
 ##### For programmatic use 
-`npm i -D json-faker`
+`npm i -D faker-json`
 
 ##### Warning
-json-faker works and is tested with node versions 6 - 11. Node 12 however will throw errors, because of worker_threads. We're currently working to resolve this issue.
+faker-json works and is tested with node versions 6 - 11. Node 12 however will throw errors, because of worker_threads. We're currently working to resolve this issue.
