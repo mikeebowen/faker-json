@@ -211,7 +211,7 @@ describe('createData', function() {
     try {
       spy(testConfig, 'this');
     } catch(err) {
-      expect(err.message).to.eql('Aborted: \n__min must be a an integer greater than 0 or a string parsable as a number: this.__min === -4');
+      expect(err.message).to.eql('Aborted: \n__min must be an integer greater than 0 or a string parsable as a number: this.__min === -4');
     }
     expect(spy.threw()).to.eql(true);
     done();
@@ -232,7 +232,7 @@ describe('createData', function() {
     try {
       spy(testConfig, 'this');
     } catch(err) {
-      expect(err.message).to.eql('Aborted: \n__max must be a an integer greater than 0 or a string parsable as a number: this.__max === -4');
+      expect(err.message).to.eql('Aborted: \n__max must be an integer greater than 0 or a string parsable as a number: this.__max === -4');
     }
     expect(spy.threw()).to.eql(true);
     done();

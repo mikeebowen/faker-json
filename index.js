@@ -5,11 +5,6 @@ const yargs = require('yargs');
 const createFromFile = require('./lib/createFromFile');
 const createData = require('./lib/createData');
 
-// yargs.array('location');
-// Object.keys(faker).forEach(key => {
-//   yargs.array(key);
-// });
-
 if (require.main === module) {
   const argv = yargs.argv;
 
