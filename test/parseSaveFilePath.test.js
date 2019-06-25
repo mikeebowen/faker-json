@@ -6,10 +6,10 @@ describe('parseSaveFilePath', function() {
   it('should return the save path, save path as an array , and the file name', function(done) {
     const retVal = parseSaveFilePath(`${__dirname}/configTestExample.json`);
     expect(retVal.saveFileName).to.eq('configTestExample.json');
-    expect(retVal.savePath.endsWith('/json-faker/test/configTestExample.json')).to.be.true;
+    expect(retVal.savePath.endsWith('/faker-json/test/configTestExample.json')).to.be.true;
     expect(retVal.savePathArr.includes('')).to.eq(true);
     expect(retVal.savePathArr.includes('home')).to.eq(true);
-    expect(retVal.savePathArr.includes('json-faker')).to.eq(true);
+    expect(retVal.savePathArr.includes('faker-json')).to.eq(true);
     expect(retVal.savePathArr.includes('test')).to.eq(true);
     done();
   });
