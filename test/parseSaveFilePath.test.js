@@ -1,16 +1,17 @@
 'use strict';
+const {sep} = require('path');
 const expect = require('chai').expect;
 const parseSaveFilePath = require('../lib/parseSaveFilePath');
 
 describe('parseSaveFilePath', function() {
   it('should return the save path, save path as an array , and the file name', function(done) {
-    const retVal = parseSaveFilePath(`${__dirname}/configTestExample.json`);
+    const retVal = parseSaveFilePath(`${__dirname + sep}configTestExample.json`);
     expect(retVal.saveFileName).to.eq('configTestExample.json');
-    expect(retVal.savePath.endsWith('/faker-json/test/configTestExample.json')).to.be.true;
-    expect(retVal.savePathArr.includes('')).to.eq(true);
-    expect(retVal.savePathArr.includes('home')).to.eq(true);
-    expect(retVal.savePathArr.includes('faker-json')).to.eq(true);
-    expect(retVal.savePathArr.includes('test')).to.eq(true);
+    expect(retVal.savePath.includes('faker-json')).to.be.true;
+    expect(retVal.savePath.includes('test')).to.be.true;
+    expect(retVal.savePath.includes('configTestExample.json')).to.be.true;
+    expect(retVal.savePathArr.includes('faker-json')).to.be.true;
+    expect(retVal.savePathArr.includes('test')).to.be.true;
     done();
   });
 

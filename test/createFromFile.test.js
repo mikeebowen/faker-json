@@ -1,4 +1,5 @@
 'use strict';
+const { sep } = require('path');
 const { expect } = require('chai');
 const rewire = require('rewire');
 const parsedDataClone = require('./configTestExample.json');
@@ -39,7 +40,10 @@ describe('createFromFile', function() {
       createFile(savePath, savePathArr, parsedData) {
         expect(parsedData).to.deep.eq(parsedDataClone);
         expect(savePathArr).to.deep.eq(['results', 'data']);
-        expect(savePath).to.include('/faker-json/results/data/user.json');
+        expect(savePath).to.include('faker-json');
+        expect(savePath).to.include('results');
+        expect(savePath).to.include('data');
+        expect(savePath).to.include('user.json');
         done();
       },
       existsSync() {
@@ -57,7 +61,7 @@ describe('createFromFile', function() {
       }
     });
 
-    createFromFile(`${__dirname}/configTestExample.json`);
+    createFromFile(`${__dirname + sep}configTestExample.json`);
   });
 
   it('should call process.exit if existsSync returns false', function(done) {
@@ -95,7 +99,7 @@ describe('createFromFile', function() {
       }
     });
 
-    createFromFile(`${__dirname}/configTestExample.json`);
+    createFromFile(`${__dirname + sep}configTestExample.json`);
   });
 
   it('should call createFile without checking with the user if existsSync returns false', function(done) {
@@ -104,7 +108,10 @@ describe('createFromFile', function() {
       createFile(savePath, savePathArr, parsedData) {
         expect(parsedData).to.deep.eq(parsedDataClone);
         expect(savePathArr).to.deep.eq(['results', 'data']);
-        expect(savePath).to.include('/faker-json/results/data/user.json');
+        expect(savePath).to.include('faker-json');
+        expect(savePath).to.include('results');
+        expect(savePath).to.include('data');
+        expect(savePath).to.include('user.json');
         done();
       },
       existsSync() {
@@ -119,6 +126,6 @@ describe('createFromFile', function() {
       }
     });
 
-    createFromFile(`${__dirname}/configTestExample.json`);
+    createFromFile(`${__dirname + sep}configTestExample.json`);
   })
 });
