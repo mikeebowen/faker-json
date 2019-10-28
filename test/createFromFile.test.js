@@ -1,6 +1,6 @@
-'use strict';
-const { sep } = require('path');
-const { expect } = require('chai');
+
+const {sep} = require('path');
+const {expect} = require('chai');
 const rewire = require('rewire');
 const parsedDataClone = require('./configTestExample.json');
 
@@ -14,7 +14,7 @@ describe('createFromFile', function() {
         expect(val).to.equal('path/to/config/file.js');
         expect(encoding).to.equal('utf8');
         expect(cb).to.be.a('function');
-      }
+      },
     });
 
     Promise.resolve(createFromFile('path/to/config/file.js'))
@@ -27,7 +27,7 @@ describe('createFromFile', function() {
     createFromFile.__set__({
       readFile(val, encoding, cb) {
         return cb(new Error('test error'), null);
-      }
+      },
     });
 
     expect(() => createFromFile('path/to/config/file.js')).to.throw('test error');
@@ -53,12 +53,12 @@ describe('createFromFile', function() {
         return {
           question(res = 'y', cb) {
             cb('y');
-          }
+          },
         };
       },
       process: {
-        cwd: process.cwd
-      }
+        cwd: process.cwd,
+      },
     });
 
     createFromFile(`${__dirname + sep}configTestExample.json`);
@@ -82,21 +82,22 @@ describe('createFromFile', function() {
         stdout: process.stdout,
         umask: process.umask,
         removeListener: process.removeListener,
-        on: process.on
+        on: process.on,
       },
       createInterface() {
         return {
           question(res = 'N', cb) {
             cb('N');
-          }
+          },
         };
       },
       console: {
         warn() {
           return;
         },
-        log: console.log
-      }
+        // eslint-disable-next-line no-console
+        log: console.log,
+      },
     });
 
     createFromFile(`${__dirname + sep}configTestExample.json`);
@@ -121,11 +122,11 @@ describe('createFromFile', function() {
         return {
           question(res = 'y', cb) {
             cb('y');
-          }
+          },
         };
-      }
+      },
     });
 
     createFromFile(`${__dirname + sep}configTestExample.json`);
-  })
+  });
 });

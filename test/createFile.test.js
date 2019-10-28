@@ -1,4 +1,4 @@
-'use strict';
+
 const expect = require('chai').expect;
 const rewire = require('rewire');
 const sinon = require('sinon');
@@ -13,7 +13,7 @@ describe('createFile', function() {
       },
       join() {
         return 'tacocat';
-      }
+      },
     });
 
     createFile('/file/location/test.json', ['file', 'location'], 'test.json');
@@ -32,10 +32,10 @@ describe('createFile', function() {
         return 'racecar';
       },
       chalk: {
-          red: chalkSpy,
-          green() {
-            return
-          }
+        red: chalkSpy,
+        green() {
+          return;
+        },
       },
       writeFile() {
         return;
@@ -46,8 +46,8 @@ describe('createFile', function() {
           expect(chalkSpy.calledWithExactly('out of beer')).to.be.true;
           done();
           return;
-        }
-      }
+        },
+      },
     });
 
     createFile('/file/location/test.json', ['file', 'location'], 'test.json', true);
@@ -65,11 +65,11 @@ describe('createFile', function() {
         return 'racecar';
       },
       chalk: {
-          red: chalkSpy,
-          green() {
-            return
-          }
-      }
+        red: chalkSpy,
+        green() {
+          return;
+        },
+      },
     });
 
     createFile('/file/location/test.json', ['file', 'location'], 'test.json', false);
@@ -91,14 +91,14 @@ describe('createFile', function() {
         },
         green() {
           return;
-        }
+        },
       },
       join() {
         return 'test.json';
       },
       writeFile() {
         return;
-      }
+      },
     });
 
     createFile('/file/location/test.json', ['file', 'location'], 'test.json', false);
@@ -117,7 +117,7 @@ describe('createFile', function() {
         },
         green() {
           return;
-        }
+        },
       },
       join() {
         return 'test.json';
@@ -129,8 +129,8 @@ describe('createFile', function() {
         unmask: process.unmask,
         exit() {
           done();
-        }
-      }
+        },
+      },
     });
 
     createFile('/file/location/test.json', ['file', 'location'], 'test.json', true);
@@ -153,14 +153,14 @@ describe('createFile', function() {
           expect(redChalkStub.calledWithExactly('too many cats')).to.be.true;
           done();
           return;
-        }
+        },
       },
       process: {
         unmask: process.unmask,
         exit() {
           return;
-        }
-      }
+        },
+      },
     });
 
     createFile('/file/location/test.json', ['file', 'location'], 'test.json', true);
@@ -182,8 +182,8 @@ describe('createFile', function() {
         red: redChalkStub,
         green() {
           return;
-        }
-      }
+        },
+      },
     });
 
     createFile('/file/location/test.json', ['file', 'location'], 'test.json', false);
@@ -197,7 +197,7 @@ describe('createFile', function() {
         cb();
       },
       chalk: {
-        green: greenChalkStub
+        green: greenChalkStub,
       },
       process: {
         unmask: process.unmask,
@@ -205,8 +205,8 @@ describe('createFile', function() {
           expect(greenChalkStub.calledWithExactly('/file/location/test.json created.')).to.be.true;
           done();
           return;
-        }
-      }
+        },
+      },
     });
 
     createFile('/file/location/test.json', ['file', 'location'], 'test.json', true);
@@ -223,8 +223,8 @@ describe('createFile', function() {
           expect(msg).to.eq('/file/location/test.json created.');
           done();
           return '';
-        }
-      }
+        },
+      },
     });
 
     createFile('/file/location/test.json', ['file', 'location'], 'test.json', false);

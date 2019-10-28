@@ -1,6 +1,6 @@
 #! /usr/bin/env node
-'use strict';
-const { join } = require('path');
+
+const {join} = require('path');
 const yargs = require('yargs');
 const createFromFile = require('../lib/createFromFile');
 const createData = require('../lib/createData');

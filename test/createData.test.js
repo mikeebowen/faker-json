@@ -1,26 +1,10 @@
-'use strict';
+
 
 const expect = require('chai').expect;
 const sinon = require('sinon');
 const rewire = require('rewire');
 
 describe('createData', function() {
-  const fakerStub = {
-    fake(str) {
-      switch (str) {
-        case '{{name.firstName}}':
-          return 'Jorge';
-        case '{{hacker.noun}}':
-          return 'Database';
-        case '{{hacker.verb}}':
-          return 'hacking';
-        case '{{lorem.word}}':
-          return 'aqua';
-        default:
-          return str;
-      }
-    }
-  };
   const createData = rewire('../lib/createData');
   createData.__set__({
     faker: {
@@ -37,8 +21,8 @@ describe('createData', function() {
           default:
             return str;
         }
-      }
-    }
+      },
+    },
   });
 
   it('should return the faker.js string if it is passed a string as the first argument', function(done) {
@@ -63,8 +47,8 @@ describe('createData', function() {
       verb: '{{hacker.verb}}',
       lorem: {
         __min: 4,
-        word: '{{lorem.word}}'
-      }
+        word: '{{lorem.word}}',
+      },
     };
 
     const res = createData(testConfig);
@@ -85,8 +69,8 @@ describe('createData', function() {
       verb: '{{hacker.verb}}',
       lorem: {
         __max: 4,
-        word: '{{lorem.word}}'
-      }
+        word: '{{lorem.word}}',
+      },
     };
 
     const res = createData(testConfig);
@@ -112,8 +96,8 @@ describe('createData', function() {
       lorem: {
         __max: 4,
         __min:1,
-        word: '{{lorem.word}}'
-      }
+        word: '{{lorem.word}}',
+      },
     };
 
     const res = createData(testConfig);
@@ -155,8 +139,8 @@ describe('createData', function() {
       noun: '{{hacker.noun}}',
       verb: '{{hacker.verb}}',
       lorem: {
-        word: '{{lorem.word}}'
-      }
+        word: '{{lorem.word}}',
+      },
     };
 
     const res = createData(testConfig);
@@ -181,8 +165,8 @@ describe('createData', function() {
         'tacocat',
         45,
         true,
-        null
-      ]
+        null,
+      ],
     };
 
     const res = createData(testConfig);
@@ -203,8 +187,8 @@ describe('createData', function() {
       noun: '{{hacker.noun}}',
       verb: '{{hacker.verb}}',
       lorem: {
-        word: '{{lorem.word}}'
-      }
+        word: '{{lorem.word}}',
+      },
     };
 
     const spy = sinon.spy(createData);
@@ -224,8 +208,8 @@ describe('createData', function() {
       noun: '{{hacker.noun}}',
       verb: '{{hacker.verb}}',
       lorem: {
-        word: '{{lorem.word}}'
-      }
+        word: '{{lorem.word}}',
+      },
     };
 
     const spy = sinon.spy(createData);
@@ -246,8 +230,8 @@ describe('createData', function() {
       lorem: {
         __max: 1,
         __min: 6,
-        word: '{{lorem.word}}'
-      }
+        word: '{{lorem.word}}',
+      },
     };
 
     const spy = sinon.spy(createData);

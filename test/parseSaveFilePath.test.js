@@ -1,4 +1,4 @@
-'use strict';
+
 const {sep} = require('path');
 const expect = require('chai').expect;
 const parseSaveFilePath = require('../lib/parseSaveFilePath');
