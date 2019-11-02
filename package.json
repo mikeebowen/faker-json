@@ -2,6 +2,14 @@
   "name": "faker-json",
   "version": "0.4.2",
   "description": "",
+  "homepage": "https://github.com/mikeebowen/faker-json#READEME.md",
+  "bugs": {
+    "url": "https://github.com/mikeebowen/faker-json/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:mikeebowen/faker-json.git"
+  },
   "main": "./bin/index.js",
   "scripts": {
     "test": "nyc --reporter=html --reporter=text mocha",
