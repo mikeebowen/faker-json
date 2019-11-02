@@ -1,11 +1,12 @@
 
 const {sep} = require('path');
 const {expect} = require('chai');
+const sinon = require('sinon');
 const rewire = require('rewire');
 const parsedDataClone = require('./configTestExample.json');
 
 describe('createFromFile', function() {
-  
+
   it('should call readFile with the file location', function(done) {
     const createFromFile = rewire('../lib/createFromFile.js');
     createFromFile.__set__({
@@ -33,8 +34,8 @@ describe('createFromFile', function() {
     expect(() => createFromFile('path/to/config/file.js')).to.throw('test error');
     done();
   });
-  
-  it('should call rl.question before calling createFile if existsSync returns true', function(done) {
+
+  it('should call checkWithUser before calling createFile if checkWithUser calls the callback', function(done) {
     const createFromFile = rewire('../lib/createFromFile.js');
     createFromFile.__set__({
       createFile(savePath, savePathArr, parsedData) {
@@ -49,54 +50,39 @@ describe('createFromFile', function() {
       existsSync() {
         return true;
       },
-      createInterface() {
-        return {
-          question(res = 'y', cb) {
-            cb('y');
-          },
-        };
+      checkWithUser(foo, cb) {
+        cb('y');
       },
       process: {
         cwd: process.cwd,
+        exit() {
+          return;
+        },
       },
     });
 
     createFromFile(`${__dirname + sep}configTestExample.json`);
   });
 
-  it('should call process.exit if existsSync returns false', function(done) {
+  it('should call checkWithUser before calling createFile if checkWithUser does not call the callback', function(done) {
     const createFromFile = rewire('../lib/createFromFile.js');
+    const chalkYellowSpy = sinon.spy();
     createFromFile.__set__({
       existsSync() {
         return true;
       },
+      checkWithUser(foo, cb) {
+        cb('N');
+      },
+      chalk: {
+        yellow: chalkYellowSpy,
+      },
       process: {
+        cwd: process.cwd,
         exit() {
-          expect(true).to.be.true;
+          expect(chalkYellowSpy.calledWith('Aborted')).to.be.true;
           done();
         },
-        cwd() {
-          return __dirname;
-        },
-        stdin: process.stdin,
-        stdout: process.stdout,
-        umask: process.umask,
-        removeListener: process.removeListener,
-        on: process.on,
-      },
-      createInterface() {
-        return {
-          question(res = 'N', cb) {
-            cb('N');
-          },
-        };
-      },
-      console: {
-        warn() {
-          return;
-        },
-        // eslint-disable-next-line no-console
-        log: console.log,
       },
     });
 

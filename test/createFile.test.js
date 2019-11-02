@@ -210,8 +210,7 @@ describe('createFile', function() {
       },
       'process.exit'() {
         expect(greenChalkStub.calledWithExactly('/file/location/test.json created.')).to.be.true;
-        done();
-        return;
+        return done();
       },
     });
 
