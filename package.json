@@ -1,6 +1,6 @@
 {
   "name": "faker-json",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "",
   "homepage": "https://github.com/mikeebowen/faker-json#READEME.md",
   "bugs": {
@@ -10,7 +10,11 @@
     "type": "git",
     "url": "git@github.com:mikeebowen/faker-json.git"
   },
-  "keywords": ["json", "data", "test"],
+  "keywords": [
+    "json",
+    "data",
+    "test"
+  ],
   "main": "./bin/index.js",
   "scripts": {
     "test": "nyc --reporter=html --reporter=text mocha",
