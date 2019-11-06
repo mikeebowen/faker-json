@@ -166,17 +166,19 @@ describe('createData', function() {
         45,
         true,
         null,
+        Symbol('foo'),
       ],
     };
 
     const res = createData(testConfig);
 
-    expect(res.list.length).to.eql(5);
+    expect(res.list.length).to.eql(6);
     expect(res.list[0]).to.eql('Jorge');
     expect(res.list[1]).to.eql('tacocat');
     expect(res.list[2]).to.eql(45);
     expect(res.list[3]).to.eql(true);
     expect(res.list[4]).to.eql(null);
+    expect(res.list[5]).to.be('symbol');
     done();
   });
 
