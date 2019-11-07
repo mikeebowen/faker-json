@@ -178,7 +178,7 @@ describe('createData', function() {
     expect(res.list[2]).to.eql(45);
     expect(res.list[3]).to.eql(true);
     expect(res.list[4]).to.eql(null);
-    expect(res.list[5]).to.be('symbol');
+    expect(res.list[5]).to.be.a('symbol');
     done();
   });
 
