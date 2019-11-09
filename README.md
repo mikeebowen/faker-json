@@ -1,32 +1,54 @@
 # faker-json
 
-[![Build Status](https://travis-ci.org/mikeebowen/faker-json.svg?branch=master)](https://travis-ci.org/mikeebowen/faker-json)
-[![Coverage Status](https://coveralls.io/repos/github/mikeebowen/faker-json/badge.svg?branch=master)](https://coveralls.io/github/mikeebowen/faker-json?branch=master)
-[![Known Vulnerabilities](https://snyk.io//test/github/mikeebowen/faker-json/badge.svg?targetFile=package.json)](https://snyk.io//test/github/mikeebowen/faker-json?targetFile=package.json)
+Create JSON files or JavaScript Objects with vast amounts of random test data with unique IDs based on your schema.
 
-----------
-A wrapper around [faker.js](https://www.npmjs.com/package/faker) that can be used as a CLI or programmatically to create large amounts of test data. Create an object with the structure you want you data to take and then add meta data to determine how many you want created.
+faker-json creates a JSON file when used from the CLI or a JavaScript Object when used programmatically. the file or Object is based on a user provided schema and populated with data from [faker.js](https://www.npmjs.com/package/faker). faker-json also provides the option of adding a unique IDs so that a JSON file created with the faker-json CLI can be used as a database for [JSON Server](https://www.npmjs.com/package/json-server)
+
+---------
+
+[![Build Status](https://travis-ci.org/mikeebowen/faker-json.svg?branch=master)](https://travis-ci.org/mikeebowen/faker-json) [![Coverage Status](https://coveralls.io/repos/github/mikeebowen/faker-json/badge.svg?branch=master)](https://coveralls.io/github/mikeebowen/faker-json?branch=master) [![Known Vulnerabilities](https://snyk.io//test/github/mikeebowen/faker-json/badge.svg?targetFile=package.json)](https://snyk.io//test/github/mikeebowen/faker-json?targetFile=package.json)
+
+- [Getting Started](#getting-started)
+  - [For CLI](#for-cli)
+  - [For Programmatic Use](#for-programmatic-use)
+- [faker-json Schema Object](#faker-json-schema-object)
+  - [faker-json Options](#faker-json-meta-data)
+  - [The `__out` Key](#the-__out-key)
+
+---------
 
 ## Getting Started
 
-#### For CLI
+### For CLI
+
 `npm i -g faker-json`
-#### For programmatic use
+
+### For programmatic use
+
 `npm i -D faker-json`
 
-### Warning
-faker-json works and is tested with node versions 6 - 11. Node 12 however will throw errors, because of worker_threads. We're currently working to resolve this issue.
+## faker-json Schema Object
 
-### faker-json schema object
-To create test data create an object with the data and keys you want. For the CLI create a json file with the random values and keys you want, plus the faker-json meta data. For programmatic use, pass an object to faker-json. The CLI will create a json file, programmatic use returns an object, the keys are the same in both cases.
+The faker-json schema object describes the data you want to create, how many instances you want created, whether you want a unique ID, and for the CLI where to place the file. 
 
-The meta data options for faker-json are:
+To generate a file with the CLI make a JSON file of your schema or a JavaScript file that exports the schema. For programmatic use pass an object with your desired schema and faker-json will return a JavaScript Object described by the schema.
+
+### faker-json Options
+
+None of the faker-json options are required. If no options are provided json-faker will return a single object with the random data you describe.
+
+The options for faker-json are:
 
 | Key | Description  |
 | ----- | ---- |
-| __out | Where the file will be created if you're using the CLI. This is relative to where faker-json. This can only be included in the root object and only one can be included. If not included a file named jfTestData-[guid] will be created|
+| __out | Where the file will be created if you're using the CLI. |
+| __id | Set to `true` to add a unique id |
 | __useValue | Use this to create an array for the root element |
 | __min, __max | The minimum and maximum number of elements to create. This key will cause the output to be an array instead of an object. If only one is included, exactly that number of elements will be created. If neither are included an object matching your schema will created instead of an array. |
+
+#### The `__out` Key
+
+This is relative to where faker-json. This can only be included in the root object and only one can be included. If not included a file named jfTestData-[guid] will be created
 
 Random data is created using the [faker.js api](https://www.npmjs.com/package/faker#api). For these examples, if you're using the CLI, create a json file with these values, if you're using faker-json programmatically, pass a JavaScript object with these same values. Any value can be passed, but anything that isn't recognized by faker.js will just have it's value added.
 
