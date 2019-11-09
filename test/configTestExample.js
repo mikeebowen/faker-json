@@ -4,7 +4,7 @@ module.exports = {
   data: {
     __min: 10,
     __max: 15,
-    id: '{{random.uuid}}',
+    __id: true,
     name: {
       constants: {
         taco: 'cat',
@@ -27,6 +27,7 @@ module.exports = {
         {
           __min: 2,
           __max: 7,
+          __id: true,
           gerund: '{{hacker.ingverb}}',
           noun: '{{hacker.noun}}',
         },

@@ -5,24 +5,27 @@ const sinon = require('sinon');
 const rewire = require('rewire');
 
 describe('createData', function() {
-  const createData = rewire('../lib/createData');
-  createData.__set__({
-    faker: {
-      fake(str) {
-        switch (str) {
-          case '{{name.firstName}}':
-            return 'Jorge';
-          case '{{hacker.noun}}':
-            return 'Database';
-          case '{{hacker.verb}}':
-            return 'hacking';
-          case '{{lorem.word}}':
-            return 'aqua';
-          default:
-            return str;
-        }
+  let createData;
+  before(function() {
+    createData = rewire('../lib/createData');
+    createData.__set__({
+      faker: {
+        fake(str) {
+          switch (str) {
+            case '{{name.firstName}}':
+              return 'Jorge';
+            case '{{hacker.noun}}':
+              return 'Database';
+            case '{{hacker.verb}}':
+              return 'hacking';
+            case '{{lorem.word}}':
+              return 'aqua';
+            default:
+              return str;
+          }
+        },
       },
-    },
+    });
   });
 
   it('should return the faker.js string if it is passed a string as the first argument', function(done) {
@@ -245,4 +248,38 @@ describe('createData', function() {
     expect(spy.threw()).to.eql(true);
     done();
   });
+
+  it('should add a unique id to each item if __id is true for an array', function(done) {
+    const testConfig = {
+      __max: 5,
+      __id: true,
+      name: '{{name.firstName}}',
+      noun: '{{hacker.noun}}',
+      verb: '{{hacker.verb}}',
+      lorem: {
+        word: '{{lorem.word}}',
+      },
+    };
+    const res = createData(testConfig);
+
+    res.forEach((r, i) => expect(r.id).to.eql(i + 1));
+    done();
+  });
+
+  it('should add an id if __id is true for a single object', function(done) {
+    const testConfig = {
+      __id: true,
+      name: '{{name.firstName}}',
+      noun: '{{hacker.noun}}',
+      verb: '{{hacker.verb}}',
+      lorem: {
+        word: '{{lorem.word}}',
+      },
+    };
+    const res = createData(testConfig);
+
+    expect(res.id).to.eql(1);
+    done();
+  });
+
 });
