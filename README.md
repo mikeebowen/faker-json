@@ -1,8 +1,8 @@
 # faker-json
 
-Create JSON files or JavaScript Objects with vast amounts of random test data with unique IDs based on your schema.
+Create JSON files or or store data in memory with vast amounts of random, realistic test data with unique IDs based on your schema. Perfect for development when you want to test with a large amount of data with a realistic variation in values.
 
-faker-json creates a JSON file when used from the CLI or a JavaScript Object when used programmatically. the file or Object is based on a user provided schema and populated with data from [faker.js](https://www.npmjs.com/package/faker). faker-json also provides the option of adding a unique IDs so that a JSON file created with the faker-json CLI can be used as a database for [JSON Server](https://www.npmjs.com/package/json-server)
+faker-json creates a JSON file when used from the CLI or an in memory JavaScript Object when used programmatically. the file or Object is based on a user provided schema and populated with data from [faker.js](https://www.npmjs.com/package/faker).
 
 ---------
 
@@ -11,9 +11,15 @@ faker-json creates a JSON file when used from the CLI or a JavaScript Object whe
 - [Getting Started](#getting-started)
   - [For CLI](#for-cli)
   - [For Programmatic Use](#for-programmatic-use)
-- [faker-json Schema Object](#faker-json-schema-object)
-  - [faker-json Options](#faker-json-meta-data)
+- [faker-json Options](#faker-json-meta-data)
   - [The `__out` Key](#the-__out-key)
+  - [The `__id` Key](#th-__id-key)
+  - [The `__useVal` Key](#the-__useVal-key)
+  - [The `__min` and `__max` Keys](#the-__min-and-__max-keys)
+- [Creating Data](#creating-data)
+  - [Creating Data from JSON](#creating-data-from-json)
+    - [`number` and `boolean` in JSON](#number-and-boolean-in-json)
+- [Creating Data with JavaScript](#creating-data-with-javascript)
 
 ---------
 
@@ -21,19 +27,31 @@ faker-json creates a JSON file when used from the CLI or a JavaScript Object whe
 
 ### For CLI
 
-`npm i -g faker-json`
+`npm install -g faker-json`
+
+Then from the terminal call `faker-json --file ./[faker-json_Schema_file_path]` where `[faker-json_Schema_file_path]` is the path to a JSON file containing your faker-json schema or a JavaScript file that exports an object representing your faker-json schema.
 
 ### For programmatic use
 
-`npm i -D faker-json`
+`npm install --save-dev faker-json`
 
-## faker-json Schema Object
+Once faker-json is installed in your project, to create your fake data, require `faker-json` and then call it with an object representing a faker-json schema.
 
-The faker-json schema object describes the data you want to create, how many instances you want created, whether you want a unique ID, and for the CLI where to place the file. 
+```javascript
+const fakerJson = require('faker-json');
 
-To generate a file with the CLI make a JSON file of your schema or a JavaScript file that exports the schema. For programmatic use pass an object with your desired schema and faker-json will return a JavaScript Object described by the schema.
+const data = fakerJson({/**faker-json options**/});
 
-### faker-json Options
+// Do something with data
+```
+
+## faker-json Options
+
+To produce fake data, create an object that describes the fake data you want with any faker-json options you need. Any keys on the object that do not start with `__` will be analyzed and added to the data produced. How values are analyzed is described below. 
+
+The faker-json options determine how many instances to create, whether you want a unique ID, and for the CLI where to place the file.
+
+To generate a file with the CLI make a JSON file with your options and desired data or a JavaScript file that exports them. For programmatic use pass an object with your described data and faker-json will return a JavaScript Object or Array containing the data described.
 
 None of the faker-json options are required. If no options are provided json-faker will return a single object with the random data you describe.
 
@@ -43,109 +61,163 @@ The options for faker-json are:
 | ----- | ---- |
 | __out | Where the file will be created if you're using the CLI. |
 | __id | Set to `true` to add a unique id |
-| __useValue | Use this to create an array for the root element |
-| __min, __max | The minimum and maximum number of elements to create. This key will cause the output to be an array instead of an object. If only one is included, exactly that number of elements will be created. If neither are included an object matching your schema will created instead of an array. |
+| __useVal | Use this to create an array of random simple types instead of objects |
+| __min, __max | The minimum and maximum number of elements to create. |
 
-#### The `__out` Key
+### The `__out` Key
 
-This is relative to where faker-json. This can only be included in the root object and only one can be included. If not included a file named jfTestData-[guid] will be created
+When using the cli, this is where the file will be created. It is relative to the directory where faker-json is called. This can only be included in the root object and only one can be included. `__out` keys not in the root will be ignored. If not included a file named `jfTestData-[guid]` will be created in the same directory where faker-json is called.
 
-Random data is created using the [faker.js api](https://www.npmjs.com/package/faker#api). For these examples, if you're using the CLI, create a json file with these values, if you're using faker-json programmatically, pass a JavaScript object with these same values. Any value can be passed, but anything that isn't recognized by faker.js will just have it's value added.
+### The `__id` Key
 
-This will return or create a single object with a data property and a single object with a type  of "user" and a data object that has a random first name and last name in a file `data/test-data.json`.
-```
+If you want a single object or an array of objects in your schema to have a unique id then add `__id: true`, to your schema. This will add a unique incremental ID to each object in an array and all corresponding arrays in subsequent instances of the same type.
+
+The IDs are unique only to their type, so for example in the data below, there is an array of users who each have an array of posts. The IDs of the users and posts are unique among the users and among the posts, but there is a user and a post who both had ID 1 and ID 2, but within users and posts, ID 1 and ID 2 are unique.
+
+```json
 {
-  "__out": "data/test-data.json",
   "type": "user",
-  "data": {
-    "firstName": "{{name.firstName}}",
-    "lastName: "{{name.lastName}}
-  }
-}
-```
-
-Passing `__min` or `__max` or both will create an array, so this will return an object with a type of "user" and "data" will be an array of between 10 and 20 users.
-
-```
-{
-  "__out": "data/test-data.json",
-  "type": "user",
-  "data": {
-    "__min": 10,
-    "__max": 20,
-    "firstName": "{{name.firstName}}",
-    "lastName: "{{name.lastName}}
-  }
-}
-```
-
-Nested objects are also supported. This will return an object with a "type" of "user" and "data" will be an array of 10-20 users, and each user will have an array of exactly 10 friends
-
-```
-{
-  "__out": "data/test-data.json",
-  "type": "user",
-  "data": {
-    "__min": 10,
-    "__max": 20,
-    "firstName": "{{name.firstName}}",
-    "lastName: "{{name.lastName}},
-    "friends": {
-      "__min": 10,
-      "firstName": "{{name.firstName}},
-      "lastName": "{{name.lastName}}
+  "data": [
+    {
+      "id": 1,
+      "name": {
+        "first": "Christian",
+        "last": "Yelich"
+      },
+      "posts": [
+        {
+          "id": 1,
+          "title:": "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+          "content": "Sed ut perspiciatis unde omnis iste natus..."
+        },
+        {
+          "id": 2,
+          "title:": "At vero eos et accusamus",
+          "content": "Ut enim ad minim veniam..."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": {
+        "first": "Mike",
+        "last": "Trout"
+      },
+      "posts": [
+        {
+          "id": 3,
+          "title:": "Totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi",
+          "content": "Architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam..."
+        },
+        {
+          "id": 4,
+          "title:": "Voluptatem quia voluptas sit",
+          "content": "Aspernatur aut odit aut fugit, sed quia consequuntur magni dolores..."
+        }
+      ]
     }
-  }
+  ]
 }
 ```
 
-Adding `__min` or `__max` to any object in the schema will cause an array to be created. If you pass an actual array, that array will be recreated in the created object. In this example all users will have the same array of `['baseball', undefined, null, 10]` for the key interests.
+### The `__useVal` Key
 
-```
+When the `__min` or `__max` keys are included, the default is for faker-json to use the meta-data and values provided to make an array of objects with fake data. So for example the following schema will produce an array of two objects that each have `item` and `price` keys.
+
+```json
 {
-  "__out": "data/test-data.json",
-  "type": "user",
-  "data": {
-    "__min": 10,
-    "__max": 20,
-    "firstName": "{{name.firstName}}",
-    "lastName: "{{name.lastName}},
-    "friends": {
-      "__min": 10,
-      "firstName": "{{name.firstName}},
-      "lastName": "{{name.lastName}}
-    },
-    "interests": [
-      'baseball',
-      undefined,
-      null,
-      10
-    ]
-  }
+  "__min": 2,
+  "item": "{{commerce.productName}}",
+  "price": "{{commerce.price}}"
 }
 ```
 
-if you want the root element to be an array instead of an object use the `__useValue` key on the root of the element. This is only needed if you want your root element to be an array, otherwise you only need the `__min` and `__max` options. This example will create an array of users with no root object.
+The data created will look something like this:
 
+```json
+[
+  {
+    "item": "Fantastic Soft Cheese",
+    "price": "435.00"
+  },
+  {
+    "item": "Intelligent Wooden Gloves",
+    "price": "141.00"
+  }
+]
 ```
+
+If however you want an array of random data not in an object then use the `__useVal` key. The schema below will create a list of exactly two random city names:
+
+```json
 {
-  "__out": "data/test-data.json",
-  "__min": 10,
-  "__max": 20,
-  "__useValue": {
-    "firstName": "{{name.firstName}}",
-    "lastName: "{{name.lastName}},
-    "friends": {
-      "__min": 10,
-      "firstName": "{{name.firstName}},
-      "lastName": "{{name.lastName}}
-    },
-    "interests": [
-      'baseball',
-      undefined,
-      null,
-      10
-    ]
-  }
+  "__min": 2,
+  "__useVal": "{{address.city}}
 }
 ```
+
+The data this produces will look similar to this:
+
+```json
+[
+  "Port Jamie",
+  "South Carrie"
+]
+```
+
+### The `__min` and `__max` Keys
+
+ If either the `__min` or `__max` key or both, are included faker-json will create an array of objects (or simple types if `__useVal` is included) from the keys not included in the faker-json meta data i.e. every key except `__out`, `__id`, `__useVal`, `__min`, and `__max`.
+ 
+ If `__min` or `__max` is included, but not the other then exactly that number of elements will be created.
+
+ If neither `__min` nor `__max` are included a single object matching your schema will created instead of an array.
+
+## Creating Data
+
+When creating data from a JSON file, Values can be of type `number`, `boolean`, `null`, `string`, `object`, or `array`.
+
+With a JavaScript file that exports an object or when used programmatically values can also be of type `undefined`, `symbol`, or `function`. Note, if the value is a function the value will not be assigned to the function, instead that function will be called and the return value will be the value of the field.
+
+`bigint` is not yet supported but it's coming soon.
+
+### Creating Data from JSON
+
+Data can be created with the cli by simply passing a json object.
+
+```shell
+faker-json --file ./myFakerObject.json
+```
+
+Different data types are handled differently.
+
+### `number` and `boolean` in JSON
+
+If you want a random number or boolean value, use the faker.js api to create them. The following will create an array with two objects each containing a bool key with a random boolean value and a num key with a random integer. 
+
+Note that the boolean and number returned will both be strings. If you want actual random boolean or integer values you will need to [create data with JavaScript instead of JSON](#creating-data-with-javascript)
+
+```json
+{
+  "__min": 2,
+  "bool": "{{random.boolean}}",
+  "num": "{{random.number}}"
+}
+```
+
+Returns random data similar to this. 
+
+```json
+[
+  {
+    "bool": "true",
+    "num": "71772"
+  },
+  {
+    "bool": "false",
+    "num": "43696"
+  }
+]
+```
+
+## Creating Data with JavaScript
